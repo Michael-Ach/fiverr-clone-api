@@ -24,7 +24,11 @@ const connect = async () => {
   }
 };
 
-app.use(cors({ origin: process.env.CLIENT_URL, credentials: true }));
+const vueClientLink = process.env.VUE_CLIENT_URL;
+const reactClientLink = process.env.REACT_CLIENT_URL;
+
+
+app.use(cors({ origin: ['http://localhost:5173', 'http://localhost:8080', vueClientLink, reactClientLink], credentials: true }));
 app.use(express.json());
 app.use(cookieParser());
 
