@@ -27,10 +27,29 @@ const connect = async () => {
 const vueClientLink = process.env.VUE_CLIENT_URL;
 const reactClientLink = process.env.REACT_CLIENT_URL;
 
-
-app.use(cors({ origin: ['http://localhost:5173', 'http://localhost:8080', vueClientLink, reactClientLink], credentials: true }));
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173",
+      "http://localhost:8080",
+      vueClientLink,
+      reactClientLink,
+    ],
+    credentials: true,
+  })
+);
 app.use(express.json());
 app.use(cookieParser());
+
+app.use(function (_req, res, next) {
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET, POST, PUT, PATCH, DELETE"
+  );
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  res.setHeader("Access-Control-Allow-Credentials", true);
+  next();
+});
 
 app.use("/api/auth", authRoute);
 app.use("/api/users", userRoute);
@@ -39,6 +58,8 @@ app.use("/api/orders", orderRoute);
 app.use("/api/conversations", conversationRoute);
 app.use("/api/messages", messageRoute);
 app.use("/api/reviews", reviewRoute);
+
+
 
 app.use((err, req, res, next) => {
   const errorStatus = err.status || 500;
