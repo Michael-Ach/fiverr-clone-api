@@ -35,21 +35,14 @@ app.use(
       vueClientLink,
       reactClientLink,
     ],
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
+    allowedHeaders: ["Content-Type"],
     credentials: true,
   })
 );
 app.use(express.json());
 app.use(cookieParser());
 
-app.use(function (_req, res, next) {
-  res.setHeader(
-    "Access-Control-Allow-Methods",
-    "GET, POST, PUT, PATCH, DELETE"
-  );
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
-  res.setHeader("Access-Control-Allow-Credentials", true);
-  next();
-});
 
 app.use("/api/auth", authRoute);
 app.use("/api/users", userRoute);
